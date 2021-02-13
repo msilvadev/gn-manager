@@ -4,7 +4,7 @@
     <property name="log.home" value="${LOG_DIR:-logs}" />
 
     <!-- FILE NAME -->
-    <property name="filenameApp" value="gca-manager" />
+    <property name="filenameApp" value="standard-manager" />
 
     <!-- Properties -->
     <property name="log.pattern" value="%date{HH:mm:ss.SSS} %5level [%thread] %logger{36}:%L - %msg%n" />
