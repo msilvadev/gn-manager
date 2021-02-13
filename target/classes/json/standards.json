@@ -1,0 +1,23 @@
+[
+  {
+  "number": 0,
+  "standardType": 1,
+  "description": "Norma Industrial 1",
+  "start": null,
+  "end": null
+  },
+  {
+    "number": 0,
+    "standardType": 2,
+    "description": "Norma Ambiental 1",
+    "start": null,
+    "end": null
+  },
+  {
+    "number": 0,
+    "standardType": 2,
+    "description": "Norma Ambiental 2",
+    "start": null,
+    "end": null
+  }
+]
