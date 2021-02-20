@@ -1,8 +1,8 @@
 package br.com.standard.application.configuration;
 
-import br.com.standard.domains.standard.StandardDto;
-import br.com.standard.services.dashboard.DashboardReportService;
-import br.com.standard.services.standard.StandardManagerService;
+import br.com.standard.domain.standard.StandardDto;
+import br.com.standard.service.dashboard.DashboardReportService;
+import br.com.standard.service.standard.StandardManagerService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.util.List;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "br.com.standard.domains")
+@EnableJpaRepositories(basePackages = "br.com.standard.domain")
 public class StartupConfiguration {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StartupConfiguration.class);
