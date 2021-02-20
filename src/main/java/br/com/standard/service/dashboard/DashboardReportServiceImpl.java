@@ -10,13 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 @Service
 public class DashboardReportServiceImpl implements DashboardReportService {
 
@@ -25,17 +18,10 @@ public class DashboardReportServiceImpl implements DashboardReportService {
     private final StandardRepository standardRepository;
     private final DashboardStandardReportRepository dashboardStandardReportRepository;
 
-    private final List<Runnable> tasks;
-
     public DashboardReportServiceImpl(StandardRepository standardRepository,
                                       DashboardStandardReportRepository dashboardStandardReportRepository) {
         this.standardRepository = standardRepository;
         this.dashboardStandardReportRepository = dashboardStandardReportRepository;
-
-        tasks = Collections.singletonList(() -> {
-            this.loadStandardTypeIndustrialDashboardReport();
-            this.loadStandardTypeEnvironmentalDashboardReport();
-        });
     }
 
     @Override
@@ -44,13 +30,11 @@ public class DashboardReportServiceImpl implements DashboardReportService {
 
         long start = System.currentTimeMillis();
 
-        this.dashboardStandardReportRepository.clearCache();
+        this.dashboardStandardReportRepository.clearDashboard();
 
-        this.executeAllTasks(tasks).join();
+        this.addDashboardReportToCache();
 
         LOGGER.info("Dashboard Report Cache loaded in {} ms", System.currentTimeMillis() - start);
-
-        LOGGER.info("Load {} Dashboard Report Cache", this.dashboardStandardReportRepository.size());
     }
 
     @Override
@@ -59,19 +43,11 @@ public class DashboardReportServiceImpl implements DashboardReportService {
     }
 
     @Override
-    public ConcurrentMap<Integer, DashboardStandardReportDto> getDashboardReport() {
+    public DashboardStandardReportDto getDashboardReport() {
         return dashboardStandardReportRepository.getAllDashboardReports();
     }
 
-    public void loadStandardTypeIndustrialDashboardReport() {
-        addDashboardReportToCache(StandardType.INDUSTRIAL);
-    }
-
-    public void loadStandardTypeEnvironmentalDashboardReport() {
-        addDashboardReportToCache(StandardType.ENVIRONMENTAL);
-    }
-
-    private void addDashboardReportToCache(StandardType standardType) {
+    private void addDashboardReportToCache() {
         DashboardStandardReportDtoBuilder builder = new DashboardStandardReportDtoBuilder();
 
         DashboardStandardReportDto report = builder
@@ -80,13 +56,6 @@ public class DashboardReportServiceImpl implements DashboardReportService {
                 .setDefaultQuantity(standardRepository.countByProcessTypeAndProcessStatus(StandardType.DEFAULT))
                 .build();
 
-        this.dashboardStandardReportRepository.add(standardType, report);
+        this.dashboardStandardReportRepository.add(report);
     }
-
-    private CompletableFuture<Void> executeAllTasks(List<Runnable> tasks) {
-        ExecutorService executor = Executors.newFixedThreadPool(10);
-        return CompletableFuture.allOf(tasks.stream()
-                .map(task -> CompletableFuture.runAsync(task, executor)).toArray(CompletableFuture[]::new));
-    }
-
 }

@@ -3,9 +3,10 @@ package br.com.standard.controller;
 import br.com.standard.domain.dashboard.DashboardStandardReportDto;
 import br.com.standard.service.dashboard.DashboardReportService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.concurrent.ConcurrentMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("standard-dashboard-report")
@@ -18,12 +19,12 @@ public class DashboardReportController {
     }
 
     @GetMapping
-    public ResponseEntity<ConcurrentMap<Integer, DashboardStandardReportDto>> getDashboardReport() {
+    public ResponseEntity<DashboardStandardReportDto> getDashboardReport() {
         return ResponseEntity.ok(dashboardReportService.getDashboardReport());
     }
 
     @PostMapping("refresh-cache")
-    public ResponseEntity<ConcurrentMap<Integer, DashboardStandardReportDto>> refreshCache() {
+    public ResponseEntity<DashboardStandardReportDto> refreshCache() {
         dashboardReportService.initializeCache();
         return ResponseEntity.ok(dashboardReportService.getDashboardReport());
     }

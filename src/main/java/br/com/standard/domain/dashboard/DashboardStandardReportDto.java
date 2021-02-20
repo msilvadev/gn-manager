@@ -23,7 +23,7 @@ public class DashboardStandardReportDto implements Serializable {
     }
 
     public void setIndustrialQuantity(int industrialQuantity) {
-        this.industrialQuantity = industrialQuantity;
+        this.industrialQuantity += industrialQuantity;
     }
 
     public int getEnvironmentalQuantity() {
@@ -31,7 +31,7 @@ public class DashboardStandardReportDto implements Serializable {
     }
 
     public void setEnvironmentalQuantity(int consultancyQuantity) {
-        this.environmentalQuantity = consultancyQuantity;
+        this.environmentalQuantity += consultancyQuantity;
     }
 
     public int getDefaultQuantity() {
@@ -39,7 +39,7 @@ public class DashboardStandardReportDto implements Serializable {
     }
 
     public void setDefaultQuantity(int defaultQuantity) {
-        this.defaultQuantity = defaultQuantity;
+        this.defaultQuantity += defaultQuantity;
     }
 
     @Override

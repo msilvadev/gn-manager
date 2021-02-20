@@ -28,43 +28,25 @@ class DashboardStandardReportRepositoryTest {
                 .setDefaultQuantity(1)
                 .build();
 
-        repository.add(standardType, this.dto);
+        repository.add(this.dto);
 
         standardDto = new StandardDto(1, 3, "Test", LocalDateTime.now(), LocalDateTime.now());
     }
 
     @Test
     void add() {
-        repository.add(StandardType.INDUSTRIAL, this.dto);
+        repository.add(this.dto);
 
-        assertThat(repository.getAllDashboardReports()).hasSize(2);
+        assertThat(repository.getAllDashboardReports().getIndustrialQuantity()).isEqualTo(2);
     }
 
     @Test
     void getAllDashboardReports() {
-        assertThat(repository.getAllDashboardReports()).isNotEmpty();
+        assertThat(repository.getAllDashboardReports()).isNotNull();
     }
 
     @Test
     void size() {
-        assertThat(repository.getAllDashboardReports()).hasSize(1);
-    }
-
-    @Test
-    void update() {
-        repository.update(standardDto);
-
-        DashboardStandardReportDto result = repository.getByProcessType(this.standardType);
-
-        assertThat(result.getDefaultQuantity()).isEqualTo(1);
-    }
-
-    @Test
-    void tryUpdateWhenNotExistYet() {
-        repository.update(standardDto);
-
-        DashboardStandardReportDto result = repository.getByProcessType(this.standardType);
-
-        assertThat(result.getDefaultQuantity()).isEqualTo(1);
+        assertThat(repository.getAllDashboardReports()).isNotNull();
     }
 }
